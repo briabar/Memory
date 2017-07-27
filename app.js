@@ -20,7 +20,7 @@ function isInArray(randomArray, num) {
 ////////////////////////////////////////////////////////////////////////////////
 function isDivisibleByFour(randomArray, mainDiv) {
   if (randomArray.length % 4 === 0) {
-    mainDiv.append('<br>');
+    mainDiv.append('<div class=\'clear\'></div>');
   }
   else {
     return;
@@ -52,22 +52,22 @@ function generateRandomGameBoard(game_token_array, mainDiv) {
 }
 
 var gameSpaces = [
-              ['<div class=\'square\'><img src=\'\\face.jpg\'></div>', '<div class=\'squareback\'><img src=\'\\back.jpg\'></div>'],
-              ['<div class=\'square\'><img src=\'\\face.jpg\'></div>', '<div class=\'squareback\'><img src=\'\\back.jpg\'></div>'],
-              ['<div class=\'square\'><img src=\'\\face.jpg\'></div>', '<div class=\'squareback\'><img src=\'\\back.jpg\'></div>'],
-              ['<div class=\'square\'><img src=\'\\face.jpg\'></div>', '<div class=\'squareback\'><img src=\'\\back.jpg\'></div>'],
-              ['<div class=\'square\'><img src=\'\\face.jpg\'></div>', '<div class=\'squareback\'><img src=\'\\back.jpg\'></div>'],
-              ['<div class=\'square\'><img src=\'\\face.jpg\'></div>', '<div class=\'squareback\'><img src=\'\\back.jpg\'></div>'],
-              ['<div class=\'square\'><img src=\'\\face.jpg\'></div>', '<div class=\'squareback\'><img src=\'\\back.jpg\'></div>'],
-              ['<div class=\'square\'><img src=\'\\face.jpg\'></div>', '<div class=\'squareback\'><img src=\'\\back.jpg\'></div>'],
-              ['<div class=\'square\'><img src=\'\\face.jpg\'></div>', '<div class=\'squareback\'><img src=\'\\back.jpg\'></div>'],
-              ['<div class=\'square\'><img src=\'\\face.jpg\'></div>', '<div class=\'squareback\'><img src=\'\\back.jpg\'></div>'],
-              ['<div class=\'square\'><img src=\'\\face.jpg\'></div>', '<div class=\'squareback\'><img src=\'\\back.jpg\'></div>'],
-              ['<div class=\'square\'><img src=\'\\face.jpg\'></div>', '<div class=\'squareback\'><img src=\'\\back.jpg\'></div>'],
-              ['<div class=\'square\'><img src=\'\\face.jpg\'></div>', '<div class=\'squareback\'><img src=\'\\back.jpg\'></div>'],
-              ['<div class=\'square\'><img src=\'\\face.jpg\'></div>', '<div class=\'squareback\'><img src=\'\\back.jpg\'></div>'],
-              ['<div class=\'square\'><img src=\'\\face.jpg\'></div>', '<div class=\'squareback\'><img src=\'\\back.jpg\'></div>'],
-              ['<div class=\'square\'><img src=\'\\face.jpg\'></div>', '<div class=\'squareback\'><img src=\'\\back.jpg\'></div>']
+              ['<div class=\'square\'><img class=\'front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back.jpg\'></div>']
             ];
 //var numberOfGameSpaces = gameSpaces.length;
 

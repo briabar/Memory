@@ -1,0 +1,27 @@
+* {
+  border: .5px solid red;
+}
+
+.gamemain {
+  position: relative;
+}
+
+.square {
+  float: left;
+}
+
+.squareback {
+  float: left;
+}
+
+.clear {
+  clear: both;
+}
+
+.front {
+  position: absolute;
+  visibility: hidden;
+}
+.back {
+
+}
