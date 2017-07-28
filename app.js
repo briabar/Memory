@@ -19,7 +19,7 @@ function isInArray(randomArray, num) {
 //// tag of the HTML page.                                                  ////
 ////////////////////////////////////////////////////////////////////////////////
 function isDivisibleByFour(randomArray, mainDiv) {
-  if (randomArray.length % 4 === 0) {
+  if (randomArray.length % 4 === 0) { //4X4 grid thus % 4
     mainDiv.append('<div class=\'clear\'></div>');
   }
   else {
@@ -51,27 +51,50 @@ function generateRandomGameBoard(game_token_array, mainDiv) {
   }
 }
 
+////////////////////////////////////////////////////////////////////////////////
+/// Takes a classTag and animates wrong answer fade in and fade out.         ///
+////////////////////////////////////////////////////////////////////////////////
 function animateFade(classTag) {
   var classTagForAnimation = classTag[2];
   $('.'+ classTagForAnimation).fadeOut();
   $('.' + classTagForAnimation).fadeIn();
 }
 
+///////////////////////////////////////////////////////////////////////////////
+///  takes parameter of number of matching pairs found, if 8 pairs found    ///
+///  you win! After winCase met, startGame() is called to reset game        ///
+///////////////////////////////////////////////////////////////////////////////
+function checkWinCase(winCase) {
+  console.log('BROKEN: ' + winCase);
+  if (winCase === 8) {
+    alert('YOU WIN!!!');
+    startGame(gameSpaces);
+  }
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //// Function is responsible for game onclick events and gamelogic.         ////
 ////////////////////////////////////////////////////////////////////////////////
-function gameLogic() {
+function gameLogic(winCase, answers, clicks) {
   $('.front').click(function() {
     $(this).addClass('vanish');
     answers.push($(this).attr('class'));
     clicks += 1
     if (clicks === 2) {
       clicks = 0;
+      //////////////////////////////////////////////
+      ///         matching pieces found          ///
+      //////////////////////////////////////////////
       if (answers[0] === answers[1]) {
         var classTag = answers[0].split(" ");
         $('.' + classTag[0]).addClass('pairfound');
         answers = [];
+        winCase++;
+        checkWinCase(winCase);
       }
+      //////////////////////////////////////////////
+      ///        non-matching piece found        ///
+      //////////////////////////////////////////////
       else {
         var classTag = answers[0].split(" ");
         var classTag2 = answers[1].split(" ");
@@ -82,6 +105,16 @@ function gameLogic() {
       }
     }
   })
+}
+
+function startGame(gameSpaces) {
+  var $mainDiv = $('.gamemain');
+  var clicks = 0;
+  var winCase = 0;
+  var answers = [];
+  $mainDiv.empty(); //clear the gameboard
+  generateRandomGameBoard(gameSpaces, $mainDiv);
+  gameLogic(winCase, answers, clicks);
 }
 
 var gameSpaces = [
@@ -104,8 +137,4 @@ var gameSpaces = [
             ];
 //var numberOfGameSpaces = gameSpaces.length;
 
-var $mainDiv = $('.gamemain');
-var clicks = 0;
-var answers = [];
-generateRandomGameBoard(gameSpaces, $mainDiv);
-gameLogic(clicks, answers);
+startGame(gameSpaces);
