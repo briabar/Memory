@@ -3,15 +3,13 @@
 .gamemain {
   position: relative;
   width: 384px;
-  height: 382px;
-  background-color: black;
+  height: 435px;
   text-align: center;
   padding-left: 8px;
   padding-top: 8px;
   padding-bottom: 10px;
   border-radius: 10%;
-  margin-left: 40%;
-  margin-top: 10%;
+  margin-left: 32%;
 }
 
 .square {
@@ -44,4 +42,12 @@ img {
 
 .pairfound {
   visibility: hidden;
+}
+
+.webmain {
+  width: 100%;
+}
+
+.scoreboardtext {
+  color: black;
 }

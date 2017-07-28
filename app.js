@@ -49,15 +49,21 @@ function generateRandomGameBoard(game_token_array, mainDiv) {
       console.log(randomArray);
     }
   }
+      mainDiv.append('<p class=\'scoreboardtext\'>Number of Clicks: 0</p>');
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Takes a classTag and animates wrong answer fade in and fade out.         ///
 ////////////////////////////////////////////////////////////////////////////////
-function animateFade(classTag) {
-  var classTagForAnimation = classTag[2];
-  $('.'+ classTagForAnimation).fadeOut();
-  $('.' + classTagForAnimation).fadeIn();
+function animateFade(answers) {
+  var classTag = answers[0].split(" ");
+  var classTag2 = answers[1].split(" ");
+  var classTagForAnimation = classTag[0];
+  var classTagForAnimation2 = classTag2[2];
+  $('.' + classTagForAnimation).removeClass('vanish');
+  $('.'+ classTagForAnimation2).fadeOut();
+  $('.' + classTagForAnimation2).fadeIn();
+  $('.' + classTagForAnimation2).removeClass('vanish');
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -73,13 +79,17 @@ function checkWinCase(winCase) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//// Function is responsible for game onclick events and gamelogic.         ////
+//// Function is responsible for game onclick events and game logic.        ////
+//// Takes in a winCase incrementor, an array of answers, and two integers  ////
+//// to keep track of clicks as parameter clicks and clicksScore            ////
 ////////////////////////////////////////////////////////////////////////////////
-function gameLogic(winCase, answers, clicks) {
+function gameLogic(winCase, answers, clicks, clicksScore) {
   $('.front').click(function() {
     $(this).addClass('vanish');
     answers.push($(this).attr('class'));
-    clicks += 1
+    clicks += 1;
+    clicksScore += 1;
+    $('.scoreboardtext').text('Number of Clicks: ' + clicksScore);
     if (clicks === 2) {
       clicks = 0;
       //////////////////////////////////////////////
@@ -96,25 +106,26 @@ function gameLogic(winCase, answers, clicks) {
       ///        non-matching piece found        ///
       //////////////////////////////////////////////
       else {
-        var classTag = answers[0].split(" ");
-        var classTag2 = answers[1].split(" ");
-        $('.' + classTag).removeClass('vanish');
-        animateFade(classTag2);
-        $('.' + classTag2).removeClass('vanish');
+        animateFade(answers);
         answers = [];
       }
     }
   })
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//// This function starts the game, and resets the board for newgame case   ////
+//// on event of win. Takes in parameter gameSpaces,an array of game spaces.////
+////////////////////////////////////////////////////////////////////////////////
 function startGame(gameSpaces) {
   var $mainDiv = $('.gamemain');
   var clicks = 0;
+  var clicksScore = 0;
   var winCase = 0;
   var answers = [];
   $mainDiv.empty(); //clear the gameboard
   generateRandomGameBoard(gameSpaces, $mainDiv);
-  gameLogic(winCase, answers, clicks);
+  gameLogic(winCase, answers, clicks, clicksScore);
 }
 
 var gameSpaces = [
