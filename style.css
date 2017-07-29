@@ -1,12 +1,24 @@
 
+#reset {
+  float: right;
+  margin-right: 30px;
+  margin-top: 25px;
+}
+
+.rating {
+    margin-top: 0px;
+    padding-top: 0px;
+}
 
 h1 {
   padding-top: 1px;
+  margin-left: 60px;
 }
+
 .gamemain {
   position: relative;
   width: 384px;
-  height: 510px;
+  height: 530px;
   text-align: center;
   padding-left: 8px;
   padding-top: 8px;
@@ -58,4 +70,5 @@ img {
 .scoreboardtext {
   color: black;
   padding-top: 6px;
+  margin-bottom: 1px;
 }

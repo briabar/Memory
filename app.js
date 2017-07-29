@@ -33,6 +33,7 @@ function isDivisibleByFour(randomArray, mainDiv) {
 ////////////////////////////////////////////////////////////////////////////////
 function generateRandomGameBoard(game_token_array, mainDiv) {
   var randomArray = [];
+  mainDiv.append('<img id=\'reset\' src=\'reset.jpg\'>');
   mainDiv.append('<h1>Memory</h1>');
   while (randomArray.length < game_token_array.length) {
     var num = Math.floor(Math.random() * (game_token_array.length));
@@ -51,6 +52,7 @@ function generateRandomGameBoard(game_token_array, mainDiv) {
     }
   }
       mainDiv.append('<p class=\'scoreboardtext\'>Number of Clicks: 0</p>');
+      mainDiv.append('<p class=\'rating\'>★★★</p>');
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -79,17 +81,20 @@ function checkWinCase(winCase, clicksScore) {
   }
 }
 
+
 ////////////////////////////////////////////////////////////////////////////////
 //// Function is responsible for game onclick events and game logic.        ////
 //// Takes in a winCase incrementor, an array of answers, and two integers  ////
 //// to keep track of clicks as parameter clicks and clicksScore            ////
 ////////////////////////////////////////////////////////////////////////////////
 function gameLogic(winCase, answers, clicks, clicksScore) {
+  resetButton();
   $('.front').click(function() {
     $(this).addClass('vanish');
     answers.push($(this).attr('class'));
     clicks += 1;
     clicksScore += 1; //for use in our 'number of clicks: ' notification.
+    rateStars(clicksScore);
     $('.scoreboardtext').text('Number of Clicks: ' + clicksScore);
     if (clicks === 2) {
       clicks = 0;
@@ -113,6 +118,19 @@ function gameLogic(winCase, answers, clicks, clicksScore) {
     }
   })
 }
+///////////////////////////////////////////////////////////////////////////////
+////  Function takes in number of clicks as parameter clicksScore. After   ////
+////  10 clicks rating is lowered to 2 stars, and after 14 clicks rating is////
+////  lowered to 1 star.                                                   ////
+///////////////////////////////////////////////////////////////////////////////
+function rateStars(clicksScore) {
+  if (clicksScore <= 13 && clicksScore > 9) {
+    $('.rating').text('★★☆');
+  }
+  else if (clicksScore > 13) {
+    $('.rating').text('★☆☆');
+  }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 //// This function starts the game, and resets the board for newgame case   ////
@@ -127,6 +145,15 @@ function startGame(gameSpaces) {
   $mainDiv.empty(); //clear the gameboard
   generateRandomGameBoard(gameSpaces, $mainDiv);
   gameLogic(winCase, answers, clicks, clicksScore);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+////        This function makes our reset button into a clickable object.    ///
+////////////////////////////////////////////////////////////////////////////////
+function resetButton() {
+  $('#reset').click(function() {
+    startGame(gameSpaces);
+  })
 }
 
 //////////////////////////////////////////////////////////
