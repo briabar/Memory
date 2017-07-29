@@ -1,7 +1,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 ///Function will check if a number, num, is inside of an array, randomArray, ///
-///for use with function to randomly populate page with game pieces.         ///
+///for use with function generateRandomGameBoard()                           ///
 ////////////////////////////////////////////////////////////////////////////////
 function isInArray(randomArray, num) {
   if (randomArray.indexOf(num) !== -1) {
@@ -33,6 +33,7 @@ function isDivisibleByFour(randomArray, mainDiv) {
 ////////////////////////////////////////////////////////////////////////////////
 function generateRandomGameBoard(game_token_array, mainDiv) {
   var randomArray = [];
+  mainDiv.append('<h1>Memory</h1>');
   while (randomArray.length < game_token_array.length) {
     var num = Math.floor(Math.random() * (game_token_array.length));
   //  alert(num);
@@ -70,10 +71,10 @@ function animateFade(answers) {
 ///  takes parameter of number of matching pairs found, if 8 pairs found    ///
 ///  you win! After winCase met, startGame() is called to reset game        ///
 ///////////////////////////////////////////////////////////////////////////////
-function checkWinCase(winCase) {
+function checkWinCase(winCase, clicksScore) {
   console.log('BROKEN: ' + winCase);
   if (winCase === 8) {
-    alert('YOU WIN!!!');
+    alert('YOU WON IN ' + clicksScore + ' CLICKS!');
     startGame(gameSpaces);
   }
 }
@@ -88,7 +89,7 @@ function gameLogic(winCase, answers, clicks, clicksScore) {
     $(this).addClass('vanish');
     answers.push($(this).attr('class'));
     clicks += 1;
-    clicksScore += 1;
+    clicksScore += 1; //for use in our 'number of clicks: ' notification.
     $('.scoreboardtext').text('Number of Clicks: ' + clicksScore);
     if (clicks === 2) {
       clicks = 0;
@@ -100,7 +101,7 @@ function gameLogic(winCase, answers, clicks, clicksScore) {
         $('.' + classTag[0]).addClass('pairfound');
         answers = [];
         winCase++;
-        checkWinCase(winCase);
+        checkWinCase(winCase, clicksScore);
       }
       //////////////////////////////////////////////
       ///        non-matching piece found        ///
@@ -128,24 +129,43 @@ function startGame(gameSpaces) {
   gameLogic(winCase, answers, clicks, clicksScore);
 }
 
+//////////////////////////////////////////////////////////
+/// This array of arrays contains all our game pieces. ///
+//////////////////////////////////////////////////////////
 var gameSpaces = [
-              ['<div class=\'square\'><img class=\'ONE front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back1.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'ONE front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back1.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'TWO front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back2.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'TWO front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back2.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'THREE front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back3.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'THREE front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back3.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'FOUR front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back4.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'FOUR front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back4.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'FIVE front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back5.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'FIVE front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back5.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'SIX front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back6.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'SIX front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back6.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'SEVEN front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back7.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'SEVEN front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back7.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'EIGHT front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back8.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'EIGHT front\' src=\'face.jpg\'></div>', '<div class=\'squareback\'><img class=\'back\' src=\'back8.jpg\'></div>']
+              ['<div class=\'square\'><img class=\'ONE front\' src=\'face.jpg\'></div>',
+              '<div class=\'squareback\'><img class=\'back\' src=\'back1.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'ONE front\' src=\'face.jpg\'></div>',
+              '<div class=\'squareback\'><img class=\'back\' src=\'back1.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'TWO front\' src=\'face.jpg\'></div>',
+              '<div class=\'squareback\'><img class=\'back\' src=\'back2.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'TWO front\' src=\'face.jpg\'></div>',
+              '<div class=\'squareback\'><img class=\'back\' src=\'back2.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'THREE front\' src=\'face.jpg\'></div>',
+              '<div class=\'squareback\'><img class=\'back\' src=\'back3.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'THREE front\' src=\'face.jpg\'></div>',
+              '<div class=\'squareback\'><img class=\'back\' src=\'back3.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'FOUR front\' src=\'face.jpg\'></div>',
+              '<div class=\'squareback\'><img class=\'back\' src=\'back4.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'FOUR front\' src=\'face.jpg\'></div>',
+              '<div class=\'squareback\'><img class=\'back\' src=\'back4.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'FIVE front\' src=\'face.jpg\'></div>',
+              '<div class=\'squareback\'><img class=\'back\' src=\'back5.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'FIVE front\' src=\'face.jpg\'></div>',
+              '<div class=\'squareback\'><img class=\'back\' src=\'back5.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'SIX front\' src=\'face.jpg\'></div>',
+              '<div class=\'squareback\'><img class=\'back\' src=\'back6.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'SIX front\' src=\'face.jpg\'></div>',
+              '<div class=\'squareback\'><img class=\'back\' src=\'back6.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'SEVEN front\' src=\'face.jpg\'></div>',
+              '<div class=\'squareback\'><img class=\'back\' src=\'back7.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'SEVEN front\' src=\'face.jpg\'></div>',
+              '<div class=\'squareback\'><img class=\'back\' src=\'back7.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'EIGHT front\' src=\'face.jpg\'></div>',
+              '<div class=\'squareback\'><img class=\'back\' src=\'back8.jpg\'></div>'],
+              ['<div class=\'square\'><img class=\'EIGHT front\' src=\'face.jpg\'></div>',
+              '<div class=\'squareback\'><img class=\'back\' src=\'back8.jpg\'></div>']
             ];
-//var numberOfGameSpaces = gameSpaces.length;
 
+//Top of program. let's start the game!
 startGame(gameSpaces);
