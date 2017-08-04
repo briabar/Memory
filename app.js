@@ -1,3 +1,31 @@
+var intervalFunction;
+
+////////////////////////////////////////////////////////////////////////////////
+///function takes in mainDiv jquery object and then sets up a timer using the
+///setInterval function.  
+////////////////////////////////////////////////////////////////////////////////
+
+function timer(mainDiv) {
+  var seconds = 0;
+  var minutes = 0;
+  $('.timer').remove();
+  mainDiv.append('<div class=\'timer\'>00:00</div>')
+  clearInterval(intervalFunction);
+  intervalFunction = setInterval(function() {
+    seconds += 1;
+    if (seconds > 59) {
+      minutes = seconds / 60;
+      seconds = 0;
+    }
+    if (minutes < 10) {
+      $('.timer').text('0' + minutes + ':' + seconds);
+    }
+    else {
+          $('.timer').text(minutes + ':' + seconds);
+    }
+  },1000);
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 ///Function will check if a number, num, is inside of an array, randomArray, ///
@@ -33,8 +61,7 @@ function isDivisibleByFour(randomArray, mainDiv) {
 ////////////////////////////////////////////////////////////////////////////////
 function generateRandomGameBoard(game_token_array, mainDiv) {
   var randomArray = [];
-  mainDiv.append('<img id=\'reset\' src=\'reset.jpg\'>');
-  mainDiv.append('<h1>Memory</h1>');
+  mainDiv.append('<img id=\'reset\' src=\'reset.jpg\'> <h1>Memory</h1>');
   while (randomArray.length < game_token_array.length) {
     var num = Math.floor(Math.random() * (game_token_array.length));
   //  alert(num);
@@ -51,8 +78,8 @@ function generateRandomGameBoard(game_token_array, mainDiv) {
       console.log(randomArray);
     }
   }
-      mainDiv.append('<p class=\'scoreboardtext\'>Number of Clicks: 0</p>');
-      mainDiv.append('<p class=\'rating\'>★★★</p>');
+      mainDiv.append('<p class=\'scoreboardtext\'>Number of Clicks: 0</p><p class=\'rating\'>★★★</p>');
+      timer(mainDiv);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
