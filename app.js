@@ -1,15 +1,14 @@
-var intervalFunction;
-
+var intervalFunction; //global variable is used to clear interval in timer function.
+var time_global;
 ////////////////////////////////////////////////////////////////////////////////
 ///function takes in mainDiv jquery object and then sets up a timer using the
-///setInterval function.  
+///setInterval function.
 ////////////////////////////////////////////////////////////////////////////////
 
-function timer(mainDiv) {
+function timer(main_div) {
   var seconds = 0;
   var minutes = 0;
-  $('.timer').remove();
-  mainDiv.append('<div class=\'timer\'>00:00</div>')
+  main_div.append('<div class=\'timer\'>00:00</div>')
   clearInterval(intervalFunction);
   intervalFunction = setInterval(function() {
     seconds += 1;
@@ -19,9 +18,11 @@ function timer(mainDiv) {
     }
     if (minutes < 10) {
       $('.timer').text('0' + minutes + ':' + seconds);
+      time_global = ('0' + minutes + ':' + seconds);
     }
     else {
-          $('.timer').text(minutes + ':' + seconds);
+      $('.timer').text(minutes + ':' + seconds);
+      time_global = (minutes + ':' + seconds);
     }
   },1000);
 }
@@ -31,8 +32,8 @@ function timer(mainDiv) {
 ///Function will check if a number, num, is inside of an array, randomArray, ///
 ///for use with function generateRandomGameBoard()                           ///
 ////////////////////////////////////////////////////////////////////////////////
-function isInArray(randomArray, num) {
-  if (randomArray.indexOf(num) !== -1) {
+function isInArray(random_array, num) {
+  if (random_array.indexOf(num) !== -1) {
     return true;
   }
   else {
@@ -46,9 +47,9 @@ function isInArray(randomArray, num) {
 //// It also takes the jQuery object mainDiv, which points to the main <div>////
 //// tag of the HTML page.                                                  ////
 ////////////////////////////////////////////////////////////////////////////////
-function isDivisibleByFour(randomArray, mainDiv) {
-  if (randomArray.length % 4 === 0) { //4X4 grid thus % 4
-    mainDiv.append('<div class=\'clear\'></div>');
+function isDivisibleByFour(random_array, main_div) {
+  if (random_array.length % 4 === 0) { //4X4 grid thus % 4
+    main_div.append('<div class=\'clear\'></div>');
   }
   else {
     return;
@@ -59,9 +60,9 @@ function isDivisibleByFour(randomArray, mainDiv) {
 ///Takes in array of game pieces, and jQuery object mainDiv. Populates page ////
 ///with game tokens.                                                        ////
 ////////////////////////////////////////////////////////////////////////////////
-function generateRandomGameBoard(game_token_array, mainDiv) {
+function generateRandomGameBoard(game_token_array, main_div) {
   var randomArray = [];
-  mainDiv.append('<img id=\'reset\' src=\'reset.jpg\'> <h1>Memory</h1>');
+  main_div.append('<img id=\'reset\' src=\'reset.jpg\'> <h1>Memory</h1>');
   while (randomArray.length < game_token_array.length) {
     var num = Math.floor(Math.random() * (game_token_array.length));
   //  alert(num);
@@ -69,17 +70,15 @@ function generateRandomGameBoard(game_token_array, mainDiv) {
       continue;
     }
     else {
-      mainDiv.append(game_token_array[num][0]);
-      console.log(game_token_array[num][0]);
-      mainDiv.append(game_token_array[num][1]);
-      console.log(game_token_array[num][1]);
+      main_div.append(game_token_array[num][0]);
+      main_div.append(game_token_array[num][1]);
       randomArray.push(num);
-      isDivisibleByFour(randomArray, mainDiv);
-      console.log(randomArray);
+      isDivisibleByFour(randomArray, main_div);
     }
   }
-      mainDiv.append('<p class=\'scoreboardtext\'>Number of Clicks: 0</p><p class=\'rating\'>★★★</p>');
-      timer(mainDiv);
+      main_div.append('<p class=\'scoreboardtext\'>Number of Clicks: 0</p><p class=\'rating\'>★★★</p>');
+      timer(main_div);
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -91,8 +90,8 @@ function animateFade(answers) {
   var classTagForAnimation = classTag[0];
   var classTagForAnimation2 = classTag2[2];
   $('.' + classTagForAnimation).removeClass('vanish');
-  $('.'+ classTagForAnimation2).fadeOut();
-  $('.' + classTagForAnimation2).fadeIn();
+  $('.'+ classTagForAnimation2).fadeOut(1000);
+  $('.' + classTagForAnimation2).fadeIn(1000);
   $('.' + classTagForAnimation2).removeClass('vanish');
 }
 
@@ -100,10 +99,10 @@ function animateFade(answers) {
 ///  takes parameter of number of matching pairs found, if 8 pairs found    ///
 ///  you win! After winCase met, startGame() is called to reset game        ///
 ///////////////////////////////////////////////////////////////////////////////
-function checkWinCase(winCase, clicksScore) {
-  console.log('BROKEN: ' + winCase);
-  if (winCase === 8) {
-    alert('YOU WON IN ' + clicksScore + ' CLICKS!');
+function checkWinCase(win_case, clicks_score, time_global) {
+  if (win_case === 8) {
+    var stars_end = rateStars(clicks_score)
+    alert('YOU WON IN ' + clicks_score + ' CLICKS IN ' + time_global + ', WITH A SCORE OF: ' + stars_end);
     startGame(gameSpaces);
   }
 }
@@ -114,15 +113,15 @@ function checkWinCase(winCase, clicksScore) {
 //// Takes in a winCase incrementor, an array of answers, and two integers  ////
 //// to keep track of clicks as parameter clicks and clicksScore            ////
 ////////////////////////////////////////////////////////////////////////////////
-function gameLogic(winCase, answers, clicks, clicksScore) {
+function gameLogic(win_case, answers, clicks, clicks_score) {
   resetButton();
   $('.front').click(function() {
     $(this).addClass('vanish');
     answers.push($(this).attr('class'));
     clicks += 1;
-    clicksScore += 1; //for use in our 'number of clicks: ' notification.
-    rateStars(clicksScore);
-    $('.scoreboardtext').text('Number of Clicks: ' + clicksScore);
+    clicks_score += 1; //for use in our 'number of clicks: ' notification.
+    rateStars(clicks_score);
+    $('.scoreboardtext').text('Number of Clicks: ' + clicks_score);
     if (clicks === 2) {
       clicks = 0;
       //////////////////////////////////////////////
@@ -132,8 +131,8 @@ function gameLogic(winCase, answers, clicks, clicksScore) {
         var classTag = answers[0].split(" ");
         $('.' + classTag[0]).addClass('pairfound');
         answers = [];
-        winCase++;
-        checkWinCase(winCase, clicksScore);
+        win_case++;
+        checkWinCase(win_case, clicks_score, time_global);
       }
       //////////////////////////////////////////////
       ///        non-matching piece found        ///
@@ -150,12 +149,17 @@ function gameLogic(winCase, answers, clicks, clicksScore) {
 ////  10 clicks rating is lowered to 2 stars, and after 14 clicks rating is////
 ////  lowered to 1 star.                                                   ////
 ///////////////////////////////////////////////////////////////////////////////
-function rateStars(clicksScore) {
-  if (clicksScore <= 13 && clicksScore > 9) {
+function rateStars(clicks_score) {
+  if (clicks_score <= 25 && clicks_score > 20) {
     $('.rating').text('★★☆');
+    return '★★☆';
   }
-  else if (clicksScore > 13) {
+  else if (clicks_score > 25) {
     $('.rating').text('★☆☆');
+    return '★☆☆';
+  }
+  else {
+    return '★★★';
   }
 }
 
@@ -163,14 +167,14 @@ function rateStars(clicksScore) {
 //// This function starts the game, and resets the board for newgame case   ////
 //// on event of win. Takes in parameter gameSpaces,an array of game spaces.////
 ////////////////////////////////////////////////////////////////////////////////
-function startGame(gameSpaces) {
+function startGame(game_spaces) {
   var $mainDiv = $('.gamemain');
   var clicks = 0;
   var clicksScore = 0;
   var winCase = 0;
   var answers = [];
   $mainDiv.empty(); //clear the gameboard
-  generateRandomGameBoard(gameSpaces, $mainDiv);
+  generateRandomGameBoard(game_spaces, $mainDiv);
   gameLogic(winCase, answers, clicks, clicksScore);
 }
 
@@ -186,40 +190,14 @@ function resetButton() {
 //////////////////////////////////////////////////////////
 /// This array of arrays contains all our game pieces. ///
 //////////////////////////////////////////////////////////
-var gameSpaces = [
-              ['<div class=\'square\'><img class=\'ONE front\' src=\'face.jpg\'></div>',
-              '<div class=\'squareback\'><img class=\'back\' src=\'back1.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'ONE front\' src=\'face.jpg\'></div>',
-              '<div class=\'squareback\'><img class=\'back\' src=\'back1.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'TWO front\' src=\'face.jpg\'></div>',
-              '<div class=\'squareback\'><img class=\'back\' src=\'back2.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'TWO front\' src=\'face.jpg\'></div>',
-              '<div class=\'squareback\'><img class=\'back\' src=\'back2.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'THREE front\' src=\'face.jpg\'></div>',
-              '<div class=\'squareback\'><img class=\'back\' src=\'back3.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'THREE front\' src=\'face.jpg\'></div>',
-              '<div class=\'squareback\'><img class=\'back\' src=\'back3.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'FOUR front\' src=\'face.jpg\'></div>',
-              '<div class=\'squareback\'><img class=\'back\' src=\'back4.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'FOUR front\' src=\'face.jpg\'></div>',
-              '<div class=\'squareback\'><img class=\'back\' src=\'back4.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'FIVE front\' src=\'face.jpg\'></div>',
-              '<div class=\'squareback\'><img class=\'back\' src=\'back5.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'FIVE front\' src=\'face.jpg\'></div>',
-              '<div class=\'squareback\'><img class=\'back\' src=\'back5.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'SIX front\' src=\'face.jpg\'></div>',
-              '<div class=\'squareback\'><img class=\'back\' src=\'back6.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'SIX front\' src=\'face.jpg\'></div>',
-              '<div class=\'squareback\'><img class=\'back\' src=\'back6.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'SEVEN front\' src=\'face.jpg\'></div>',
-              '<div class=\'squareback\'><img class=\'back\' src=\'back7.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'SEVEN front\' src=\'face.jpg\'></div>',
-              '<div class=\'squareback\'><img class=\'back\' src=\'back7.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'EIGHT front\' src=\'face.jpg\'></div>',
-              '<div class=\'squareback\'><img class=\'back\' src=\'back8.jpg\'></div>'],
-              ['<div class=\'square\'><img class=\'EIGHT front\' src=\'face.jpg\'></div>',
-              '<div class=\'squareback\'><img class=\'back\' src=\'back8.jpg\'></div>']
-            ];
+var gameSpaces = [];
+for (i = 1; i < 9; i++) {
+  gameSpaces.push(['<div class=\'square\'><img class=\'' + i +' front\' src=\'face.jpg\'></div>',
+  '<div class=\'squareback\'><img class=\'back\' src=\'back'+ i +'.jpg\'></div>']);
+  gameSpaces.push(['<div class=\'square\'><img class=\'' + i +' front\' src=\'face.jpg\'></div>',
+  '<div class=\'squareback\'><img class=\'back\' src=\'back'+ i +'.jpg\'></div>']);
+}
+
 
 //Top of program. let's start the game!
 startGame(gameSpaces);

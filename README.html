@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <meta charset="UTF-8">
+   <title>Memory Readme</title>
+   <style>
+   body {
+     max-width: 800px;
+   }
+   </style>
+ </head>
+ <body>
+ <h1>Memory</h1>
+ <p>Memory is the classic picture matching game that has been played all over the world.
+ This version of memory is one that I coded for my Intro to Programming Nano Degree from Udacity.
+ It is the capstone project of the course, and it uses javascript, jquery, html, and CSS.</p>
+ <h2>How to Play</h2>
+ <p>Open the included index.html file to run the game. The rules are the game are simple,
+ click and reveal game tokens, attempt to remember the images revealed and match
+ them in as few clicks as possible.</p>
+<h2>Features</h2>
+<p>This implementation of Memory has several features.</p>
+<h4>Reset Button</h4>
+<p>At the top right there is a restart button, which will restart the game when
+clicked, generating a new game board, and resetting all timers and scoreboards.</p>
+<h4>Click Counter</h4>
+<p>Below the game board there is a scoreboard which keeps track of the number
+of clicks that have been made during the game.  Try to use the fewest number
+of clicks possible.</p>
+<h4>Star Rating</h4>
+<p>Below the click counter are three stars which will score your skill level.
+Try to get a star score of two or above!</p>
+<h4>Timer</h4>
+<p>At the very bottom of the screen is a timer.  Try to beat your time each time you play!</p>
+<h2>Design Choices</h2>
+<h4>Overview</h4>
+<p>The game was designed using two overlapping grids of div elements.  These divs
+are generated out of an array which links to the included image files. Game tokens
+below are revealed by controlling visibility by adding and removing CSS through jquery.</p>
+<h4>Fade Speed</h4>
+<p>The fade speed of the tiles are fairly quick because I found that if they were too
+slow it began to interfere with gameplay, and make clicking confusing.  After receiving
+feedback on the project I did slow the fade time down to 1 second in and 1 second
+out. </p>
+<h4>Image Choice</h4>
+<p>I chose images that were similar to each other in order to increase the difficulty.
+ I wanted my game to be a real memory workout! </p>
+ <h4>Star Counter</h4>
+ <p>I chose to use the following values for my star counter: <br>
+ 0-20:  ★★★<br>
+ 21-25: ★★☆<br>
+ 26+:   ★☆☆<br>
+ Since the minimun number of clicks required to win the game is 16 these seemed like reasonable amounts.</p>
+
+ </body>
+</html>
